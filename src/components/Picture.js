@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
+import todaysPictureReducer from './../reducers/picture-of-the-day-reducer';
+
 
 function Picture() {
   const [error, setError] = useState(null);
