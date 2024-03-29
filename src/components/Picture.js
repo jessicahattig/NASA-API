@@ -25,12 +25,12 @@ function Picture() {
           dispatch(action);
         })
       .catch((error) => {
-        setError(error)
-        setIsLoaded(true)
+        const action = getTodaysPictureFailure(error.message)
+        dispatch(action);
       });
-    }, []) 
+    }) }
 
-    const {error, isLoaded, picture, setError, setIsLoaded} =state
+    const {error, isLoaded, todaysPicture } =state
 
     if (error) {
       return <h1>Error: {error}</h1>;
@@ -40,14 +40,19 @@ function Picture() {
       return (
         <React.Fragment>
           <h1>Picture of The Day! </h1>
-          <ul>
-            {picture.map((article, index) =>
+          {/* <ul> */}
+            {/* {picture.map((article, index) =>
               <li key={index}>
                 <h3>{article.title}</h3>
                 <p>{article.abstract}</p>
               </li>
-            )}
-          </ul>
+            )} */}
+            {/* {picture} */}
+            <ul>
+              <div></div>
+            <p>{todaysPicture.map((date) =>
+            {date} )} </p>
+            </ul>
         </React.Fragment>
       );
     }
