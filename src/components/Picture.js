@@ -1,11 +1,16 @@
 import React, { useEffect, useReducer } from 'react';
 import todaysPictureReducer from './../reducers/picture-of-the-day-reducer';
+import { getTodaysPictureFailure, getTodaysPictureSuccess } from './../actions/index';
 
+const initialState = {
+  isLoaded: false,
+  todaysPicture: [],
+  error: null
+};
 
 function Picture() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [picture, setPicture] = useState([]);
+  const [state, dispatch] = useReducer(todaysPictureReducer, initialState);
+
   useEffect(() => {
     fetch(`https://api.nasa.gov/planetary/apod?api_key=${process.env.REACT_APP_API_KEY}`)
     .then(response => {
@@ -16,14 +21,17 @@ function Picture() {
       }
     })
       .then((jsonifiedResponse) => {
-          picture(jsonifiedResponse.results)
-          setIsLoaded(true)
+          const action = getTodaysPictureSuccess(jsonifiedResponse.results)
+          dispatch(action);
         })
       .catch((error) => {
         setError(error)
         setIsLoaded(true)
       });
     }, []) 
+
+    const {error, isLoaded, picture, setError, setIsLoaded} =state
+
     if (error) {
       return <h1>Error: {error}</h1>;
     } else if (!isLoaded) {
